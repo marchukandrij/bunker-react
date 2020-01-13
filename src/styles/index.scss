@@ -1,10 +1,12 @@
 
+$static_url: '/static/';
+
 @font-face {
 	font-family: 'Gnuolane Free Cyrillic';
-	src: url('/fonts/GnuolaneFreeCyrillic.eot');
-	src: url('/fonts/GnuolaneFreeCyrillic.eot?#iefix') format('embedded-opentype'),
-		 url('/fonts/GnuolaneFreeCyrillic.woff') format('woff'),
-		 url('/fonts/GnuolaneFreeCyrillic.ttf') format('truetype');
+	src: url($static_url + 'fonts/GnuolaneFreeCyrillic.eot');
+	src: url($static_url + 'fonts/GnuolaneFreeCyrillic.eot?#iefix') format('embedded-opentype'),
+		 url($static_url + 'fonts/GnuolaneFreeCyrillic.woff') format('woff'),
+		 url($static_url + 'fonts/GnuolaneFreeCyrillic.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }

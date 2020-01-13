@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch  } from 'react-redux'
 import { Paint } from './paint'
 import axios from 'axios'
 import { loadPaints, appendPaints } from './../state'
+import { API_URL } from  './../settings'
 
 export const PageGalery = () => {
     const paints = useSelector(state => state.navigator.paints);
@@ -10,7 +11,7 @@ export const PageGalery = () => {
     useEffect(() => {
         document.title = 'Галерея - BunkerMuz';
         if (paints.length === 0) {
-            axios.get('/api/paints/getstart.json')
+            axios.get( API_URL + '/paints/getstart')
                 .then(res => 
                     {
                         const apaints = res.data;
@@ -31,8 +32,9 @@ export const PageGalery = () => {
     );
     // append paints and switch to galery
     function loadMorePaits() {
+        let paintsCount = paints.length;
         return () => {
-            axios.get('/api/paints/getstart.json')
+            axios.get( API_URL + '/paints/get/'+paintsCount+'/8')
                 .then(res => 
                     {
                         const apaints = res.data;
@@ -47,7 +49,7 @@ export const PageGalery = () => {
                 { paintsList }
             </div>
             <div className="paints__more" onClick={loadMorePaits()}>
-                Більше картин <img src="/images/icon-arrow-right.svg" alt=">" />
+                Більше картин <img src={process.env.PUBLIC_URL + "/images/icon-arrow-right.svg"} alt=">" />
             </div>
         </div>
         </>

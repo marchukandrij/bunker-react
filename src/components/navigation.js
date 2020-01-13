@@ -15,7 +15,7 @@ export const Header = () => {
             <div className="header__container">
                 <div className="header__logo" 
                     onClick={() => dispatch(changePage('main'))}>
-                    <img src="/images/logo.svg" alt="BunkerMuz"/>
+                    <img src={process.env.PUBLIC_URL + "/images/logo.svg"} alt="BunkerMuz"/>
                 </div>
                 <div className="header__menu">
                     <div className={getClass('main')}
@@ -40,7 +40,7 @@ export const Header = () => {
                     </div>
                 </div>
                 <div className="header__burger" onClick={() => changeModal(true)}>
-                    <img src="/images/icon-burger.svg" alt="+"/>
+                    <img src={process.env.PUBLIC_URL + "/images/icon-burger.svg"} alt="+"/>
                 </div>
             </div>
         </div>
@@ -67,7 +67,8 @@ export const Header = () => {
                         onClick={() => dispatch(changePage('contact'))}>
                         Контакти
                     </div>
-                    <img className="header__burger-menu-logo" src="/images/logo.svg" alt="BunkerMuz"/>
+                    <img className="header__burger-menu-logo" 
+                        src={process.env.PUBLIC_URL + "/images/logo.svg"} alt="BunkerMuz"/>
                 </div>
             </div>
         }

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch  } from 'react-redux'
-import { changePage } from './../state'
 import { Paint } from './paint'
 // Import Slick Slider
 import "slick-carousel/slick/slick.css";
@@ -8,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import axios from 'axios'
 import { loadPaints, appendPaints } from './../state'
+import { API_URL } from  './../settings'
 
 export const PageMain = () => {
     const paints = useSelector(state => state.navigator.paints);
@@ -16,7 +16,7 @@ export const PageMain = () => {
     useEffect(() => {
         document.title = 'Головна - BunkerMuz';
         if (paints.length === 0) {
-            axios.get('/api/paints/getstart.json')
+            axios.get(API_URL + '/paints/getstart')
                 .then(res => 
                     {
                         const apaints = res.data;
@@ -37,8 +37,9 @@ export const PageMain = () => {
     );
     // append paints and switch to galery
     function loadMorePaits() {
+        let paintsCount = paints.length;
         return () => {
-            axios.get('/api/paints/getstart.json')
+            axios.get(API_URL + '/paints/get/'+paintsCount+'/8')
                 .then(res => 
                     {
                         const apaints = res.data;
@@ -61,10 +62,10 @@ export const PageMain = () => {
     return (
         <>
             <Slider className="main-slider" { ...mainSliderSettings }>
-                <img className="main-slider__slide" src="/images/main-slide-1.jpg" alt=""/>
-                <img className="main-slider__slide" src="/images/main-slide-2.jpg" alt="" />
-                <img className="main-slider__slide" src="/images/main-slide-3.jpg" alt="" />
-                <img className="main-slider__slide" src="/images/main-slide-4.jpg" alt="" />            
+                <img className="main-slider__slide" src={process.env.PUBLIC_URL + "/images/main-slide-1.jpg"} alt=""/>
+                <img className="main-slider__slide" src={process.env.PUBLIC_URL + "/images/main-slide-2.jpg"} alt="" />
+                <img className="main-slider__slide" src={process.env.PUBLIC_URL + "/images/main-slide-3.jpg"} alt="" />
+                <img className="main-slider__slide" src={process.env.PUBLIC_URL + "/images/main-slide-4.jpg"} alt="" />            
             </Slider>
 
             <div className="main-text">
@@ -73,7 +74,7 @@ export const PageMain = () => {
                     <p>Підземна галерея Бункермуз у Тернополі заснована у 2013-му році, їй передувало два роки діяльності андеґраундного мистецького простору «Штуки». Знаково, що першою виставкою оновленого Бункермузу стала експозиція Дмитра Стецька «Вітрила часу» - перша персональна виставка майстра у рідному місті. Бункермуз позиціонує себе як динамічну та незаконсервовану арт-сцену, створену для представлення артекспозицій та інсталяцій, спілкування митців і глядачів, обміну ідеями.</p>
                     <p>Місія галереї — культпорятунок людства через транслювання відбірних вирізок концептуального мистецтва; введення у світовий артдискурс і формування естетичного світогляду та смаку; демаргіналізовування маргіналій; зміна рівнів дискурсів; операції на герметичності та ампутація стереотипів.</p>
                     <p>Через 6 років, організувавши понад 120 експозицій, Бункермуз вирішив повторити свій успіх вже у Білій Церкві, відкривши другу галерею сучасного мистецтва, атмосферний простір якої поєднує акустичність і масштабність.</p>
-                    <img className="main-text__quote" src="/images/icon-quote.svg" alt='"'/>
+                    <img className="main-text__quote" src={process.env.PUBLIC_URL + "/images/icon-quote.svg"} alt='"'/>
                 </div> 
             </div>
 
@@ -82,7 +83,7 @@ export const PageMain = () => {
                     { paintsList }
                 </div>
                 <div className="paints__more" onClick={loadMorePaits()}>
-                    Більше картин <img src="/images/icon-arrow-right.svg" alt=">" />
+                    Більше картин <img src={process.env.PUBLIC_URL + "/images/icon-arrow-right.svg"} alt=">" />
                 </div>
             </div>
 
