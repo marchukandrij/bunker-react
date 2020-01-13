@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch  } from 'react-redux'
 import { changePage } from './../state'
 
@@ -6,6 +6,15 @@ export const Header = () => {
     const currentPage = useSelector(state => state.navigator.currentPage);
     const dispatch = useDispatch();
     const [modalState, changeModal] = useState(false)
+    useEffect(() => {
+        let ares = 'BunkerMuz';
+        if (currentPage === 'main') { ares += ' | Головна ' };
+        if (currentPage === 'galery') { ares += ' | Галерея' };
+        if (currentPage === 'authors') { ares += ' | Автори' };
+        if (currentPage === 'background') { ares += ' | Беґраунд' };
+        if (currentPage === 'contact') { ares += ' | Контакти' };       
+        document.title = ares;
+    });
     function getClass(page) {
         return 'header__menu-item' + ( currentPage === page ? ' header__menu-item--active':'');
     }

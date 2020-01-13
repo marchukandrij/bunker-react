@@ -1,5 +1,6 @@
 
-$static_url: '/static/';
+//$static_url: '/static/';
+$static_url: '/';
 
 @font-face {
 	font-family: 'Gnuolane Free Cyrillic';
@@ -58,16 +59,19 @@ $breakpoint-mobile: 650px;
             width: 130px;
             text-align: center;
             font-size: 20px;
-            line-height: 37px;
+            line-height: 45px;
             &:hover {
                 text-decoration: underline;
+            }
+            &:active {
+                background-color: white;
             }
             @media (max-width: $breakpoint-tablet) {
                 width: 100px;
             }
             &--active {
                 font-size: 30px;
-                line-height: 37px;
+                line-height: 45px;
                 &:hover {
                     text-decoration: none;
                 }
@@ -154,12 +158,18 @@ $breakpoint-mobile: 650px;
         @media (max-width: $breakpoint-mobile) {
             top: 0;
             margin-bottom: 0;
+            padding-left: 70px;
+            padding-right: 40px;
         }
     }
     &__quote {
         position: absolute;
         top: 64px;
         left: 48px;
+        @media (max-width: $breakpoint-mobile) {
+            top: 64px;
+            left: 8px;
+        }
     }
 }
 

@@ -7,14 +7,13 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import axios from 'axios'
 import { loadPaints, appendPaints } from './../state'
-import { API_URL } from  './../settings'
+import { API_URL, MEDIA_URL } from  './../settings'
 
 export const PageMain = () => {
     const paints = useSelector(state => state.navigator.paints);
     const dispatch = useDispatch();
     // load data on start
     useEffect(() => {
-        document.title = 'Головна - BunkerMuz';
         if (paints.length === 0) {
             axios.get(API_URL + '/paints/getstart')
                 .then(res => 
@@ -26,9 +25,9 @@ export const PageMain = () => {
     });
     // render paints 
     const paintsList = paints.map((paint) =>
-        <div className="paints__cell">
+        <div className="paints__cell" key={ paint.id }>
             <Paint 
-                src={ paint.src }
+                src={ MEDIA_URL + paint.src }
                 id={ paint.id }
                 author={ paint.author }
                 title={ paint.title }

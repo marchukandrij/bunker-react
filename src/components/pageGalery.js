@@ -3,13 +3,12 @@ import { useSelector, useDispatch  } from 'react-redux'
 import { Paint } from './paint'
 import axios from 'axios'
 import { loadPaints, appendPaints } from './../state'
-import { API_URL } from  './../settings'
+import { API_URL, MEDIA_URL } from  './../settings'
 
 export const PageGalery = () => {
     const paints = useSelector(state => state.navigator.paints);
     const dispatch = useDispatch();
     useEffect(() => {
-        document.title = 'Галерея - BunkerMuz';
         if (paints.length === 0) {
             axios.get( API_URL + '/paints/getstart')
                 .then(res => 
@@ -23,7 +22,7 @@ export const PageGalery = () => {
     const paintsList = paints.map((paint) =>
         <div className="paints__cell">
             <Paint 
-                src={ paint.src }
+                src={ MEDIA_URL + paint.src }
                 id={ paint.id }
                 author={ paint.author }
                 title={ paint.title }
