@@ -1,26 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Header } from './components/navigation'
+import { PageMain } from './components/pageMain'
+import { PageGalery } from './components/pageGalery'
+import { useSelector  } from 'react-redux'
 
-function App() {
+
+export const App = () => {
+  const currentPage = useSelector(state => state.navigator.currentPage);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Header />
+      {currentPage === 'main' && <PageMain></PageMain>}
+      {currentPage === 'galery' && <PageGalery></PageGalery>}
+    </>
+  )
 }
-
-export default App;
