@@ -10,7 +10,8 @@ const initialState = {
     modalType: 'type',
     authorID: 'ida',
     paintID: 'idp',
-    paints: []
+    paints: [],
+    authors: []
 }
 
 // -------------- actions
@@ -36,6 +37,14 @@ export const appendPaints = paints => ({
     value: paints,
     type: 'APPEND_PAINTS', 
 })
+export const loadAuthors = authors => ({ 
+    value: authors,
+    type: 'LOAD_AUTHORS', 
+})
+export const appendAuthors = authors => ({ 
+    value: authors,
+    type: 'APPEND_AUTHORS', 
+})
 
 // -------------- reducers
 
@@ -44,6 +53,7 @@ const navigator = (state = initialState, action) => {
     switch(action.type) {
   
         case 'CHANGE_PAGE':
+            window.scrollTo(0,0);
             return {...state, 
                 currentPage: action.value,
                 modalWindow: false }
@@ -74,6 +84,14 @@ const navigator = (state = initialState, action) => {
                 paints: state.paints.concat(action.value),
                 currentPage: 'galery' }
         
+        case 'LOAD_AUTHORS':
+            return {...state, 
+                authors: action.value}
+
+        case 'APPEND_AUTHORS':
+            return {...state, 
+                authors: state.authors.concat(action.value)}                
+
         default:
             return state
     }

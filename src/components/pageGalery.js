@@ -31,7 +31,7 @@ export const PageGalery = () => {
     );
     // append paints and switch to galery
     function loadMorePaits() {
-        let paintsCount = paints.length;
+        let paintsCount = paints.length + 1;
         return () => {
             axios.get( API_URL + '/paints/get/'+paintsCount+'/8')
                 .then(res => 
@@ -46,6 +46,7 @@ export const PageGalery = () => {
         <div className="paints">
             <div className="paints__container">
                 { paintsList }
+
             </div>
             <div className="paints__more" onClick={loadMorePaits()}>
                 Більше картин <img src={process.env.PUBLIC_URL + "/images/icon-arrow-right.svg"} alt=">" />

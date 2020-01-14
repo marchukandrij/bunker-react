@@ -1,3 +1,5 @@
 //export const API_URL = '/api';
-export const API_URL = 'http://localhost:8000/api';
-export const MEDIA_URL = 'http://localhost:8000';
+
+// use test hosted 
+export const API_URL = 'http://64.225.74.130/api';
+export const MEDIA_URL = 'http://64.225.74.130';
