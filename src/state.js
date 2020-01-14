@@ -7,9 +7,8 @@ import {combineReducers} from 'redux'
 const initialState = { 
     currentPage: 'main',
     modalWindow: false,
-    modalType: 'type',
-    authorID: 'ida',
-    paintID: 'idp',
+    modalType: '',
+    modalData: {},
     paints: [],
     authors: []
 }
@@ -28,6 +27,9 @@ export const showModalPaint = paintID => ({
     value: paintID,
     type: 'MODAL_PAINT', 
 })
+export const showModalMenu = () => ({ 
+    type: 'MODAL_MENU', 
+})
 export const hideModal = () => ({ type: 'MODAL_HIDE'})
 export const loadPaints = paints => ({ 
     value: paints,
@@ -44,6 +46,10 @@ export const loadAuthors = authors => ({
 export const appendAuthors = authors => ({ 
     value: authors,
     type: 'APPEND_AUTHORS', 
+})
+export const updateModalData = data => ({
+    value: data,
+    type: 'UPDATE_MODAL_DATA',
 })
 
 // -------------- reducers
@@ -62,18 +68,24 @@ const navigator = (state = initialState, action) => {
             return {...state, 
                 modalWindow: true, 
                 modalType: 'author', 
-                authorID: action.value }
+                modalData: action.value }
 
         case 'MODAL_PAINT':
             return {...state, 
                 modalWindow: true, 
                 modalType: 'paint', 
-                paintID: action.value }            
+                modalData: action.value }    
+
+        case 'MODAL_MENU':
+            return {...state, 
+                modalWindow: true, 
+                modalType: 'menu'}           
 
         case 'MODAL_HIDE':
             return {...state, 
                 modalWindow: false,
-                modalType: ''}
+                modalType: '',
+                modalData: {}}
 
         case 'LOAD_PAINTS':
             return {...state, 
@@ -90,7 +102,11 @@ const navigator = (state = initialState, action) => {
 
         case 'APPEND_AUTHORS':
             return {...state, 
-                authors: state.authors.concat(action.value)}                
+                authors: state.authors.concat(action.value)}  
+                
+        case 'UPDATE_MODAL_DATA':
+            return {...state, 
+                modalData: action.value}    
 
         default:
             return state

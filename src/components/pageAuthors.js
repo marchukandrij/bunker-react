@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch  } from 'react-redux'
 import axios from 'axios'
-import { loadAuthors, appendAuthors } from './../state'
+import { loadAuthors, appendAuthors, showModalAuthor } from './../state'
 import { API_URL, MEDIA_URL } from  './../settings'
 
 const AuthorsGroup = (props) => {
+    const dispatch = useDispatch();
     const styles = "authors__card" + (props.type === 3 ? " authors__card--2": "");
     const list = props.data.map((author) => 
-        <div key={author.id} className={ styles }>
+        <div 
+            key={author.id} 
+            className={ styles } 
+            onClick={() => dispatch(showModalAuthor(author.id))}>
             <img src={ MEDIA_URL + author.image } alt="" />
             <div className="authors__card-name">{ author.name }</div>    
         </div>

@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import axios from 'axios'
-import { changePage, loadPaints, appendPaints } from './../state'
+import { changePage, loadPaints } from './../state'
 import { API_URL, MEDIA_URL } from  './../settings'
 
 export const PageMain = () => {
@@ -34,18 +34,6 @@ export const PageMain = () => {
             />
         </div>
     );
-    // append paints and switch to galery
-    function loadMorePaits() {
-        let paintsCount = paints.length + 1;
-        return () => {
-            axios.get(API_URL + '/paints/get/'+paintsCount+'/8')
-                .then(res => 
-                    {
-                        const apaints = res.data;
-                        dispatch(appendPaints(apaints))
-                    })
-        }
-    }
     // main slider 
     var mainSliderSettings = {
         dots: false,
@@ -81,12 +69,15 @@ export const PageMain = () => {
                 <div className="paints__container">
                     { paintsList }
                 </div>
-                <div className="paints__more" onClick={() => dispatch(changePage('galery'))}>
+                <div className="paints__more" 
+                    onClick={() => dispatch(changePage('galery'))}>
                     Більше картин <img src={process.env.PUBLIC_URL + "/images/icon-arrow-right.svg"} alt=">" />
                 </div>
             </div>
 
-            <p>Слайдер авторів</p>
+            <div className="horizontal-divider"></div>
+            <center><p>Слайдер авторів</p></center>
+            <div className="horizontal-divider"></div>
         </>
     )
 }
