@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from './components/navigation'
+import { Header, Footer } from './components/navigation'
 import { PageMain } from './components/pageMain'
 import { PageGalery } from './components/pageGalery'
 import { PageAuthors } from './components/pageAuthors'
@@ -14,12 +14,13 @@ export const App = () => {
   return (
     <>
       <Header />
-      {currentPage === 'main' && <PageMain></PageMain>}
-      {currentPage === 'galery' && <PageGalery></PageGalery>}
-      {currentPage === 'authors' && <PageAuthors></PageAuthors>}
-      {currentPage === 'background' && <PageBackground></PageBackground>}
-      {currentPage === 'contact' && <PageContact></PageContact>}
-      <ModalCover></ModalCover>
+      {currentPage === 'main' && <PageMain />}
+      {currentPage === 'galery' && <PageGalery />}
+      {currentPage === 'authors' && <PageAuthors />}
+      {currentPage === 'background' && <PageBackground />}
+      {currentPage === 'contact' && <PageContact />}
+      <ModalCover />
+      <Footer />
     </>
   )
 }

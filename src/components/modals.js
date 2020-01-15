@@ -3,6 +3,7 @@ import { useSelector, useDispatch  } from 'react-redux'
 import { hideModal, changePage, updateModalData, showModalAuthor } from './../state'
 import axios from 'axios'
 import { API_URL, MEDIA_URL } from  './../settings'
+import { Paint } from './paint'
 
 const ModalMenu = () => { 
     const currentPage = useSelector(state => state.navigator.currentPage);
@@ -48,21 +49,25 @@ const ModalPaint = () => {
     if (typeof(modalData) === 'number') {
         // дані про картину
         axios.get( API_URL + '/paints/detail/'+modalData)
-            .then(res => 
-                {
-                    const apaint = res.data;
-                    dispatch(updateModalData(apaint))
-                })
-    } else {
-        // if (morePaints.length === 0) {
-        //     // інші картини автора
-        //     axios.get( API_URL + '/paints/byauthor/'+modalData.author_id)
-        //         .then( res => { setMorePaints(res.data) } )
-        // }
+            .then(res => dispatch(updateModalData(res.data)) )
+    }
+    var paintsList;
+    if (typeof(modalData) !== 'number') {
+        paintsList = modalData.another_paints.map((paint) =>
+        <div className="modal-paint__more-cell">
+            <Paint 
+                src={ MEDIA_URL + paint.src }
+                id={ paint.id }
+                author={ paint.author }
+                title={ paint.title }
+            />
+        </div>
+        )
     }
     return (
         <>
             { typeof(modalData) !== 'number' && 
+                <>
                 <div className="modal-paint">
                     <div className="modal-paint__image">
                         <img src={ MEDIA_URL + modalData.src } alt="" />
@@ -70,7 +75,7 @@ const ModalPaint = () => {
                     <div className="modal-paint__data">
                         <div className="modal-paint__title">{ modalData.title }</div>
                         <div 
-                            onClick={() => dispatch(showModalAuthor( modalData.author_id))}
+                            onClick={() => dispatch(showModalAuthor( modalData.authorid))}
                             className="modal-paint__author">
                             { modalData.author }
                         </div>
@@ -80,8 +85,18 @@ const ModalPaint = () => {
                         
                     </div>
                 </div>
+                
+                { modalData.another_paints.length > 0 &&
+                    <>
+                        <div className="modal-paint__more">Більше картин автора</div>
+                        <div className="modal-paint__more-container">
+                            { paintsList }
+                        </div>
+                    </>
+                }
+
+                </>
             }
-            <div className="modal-paint__more">Більше картин автора</div>
         </>
     )
 }
@@ -138,12 +153,17 @@ const ModalAuthor = () => {
 
 const ModalDialog = () => {  
     const modalType = useSelector(state => state.navigator.modalType);
+    const dispatch = useDispatch();
     let modalClass = "modal-dialog" + 
         ((modalType === 'paint') || (modalType === 'author') ? "": " modal-dialog--hide");
+    function doNoting(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
     return (
-        <div className={ modalClass }>
+        <div className={ modalClass } onClick={doNoting}>
             <div className="modal-dialog__container">
-                <div className="modal-dialog__close">
+                <div className="modal-dialog__close" onClick={ () => dispatch(hideModal()) } >
                     <img src={process.env.PUBLIC_URL + "/images/icon-close.svg"} alt='x' />
                 </div>
                 <div className="modal-dialog__content">

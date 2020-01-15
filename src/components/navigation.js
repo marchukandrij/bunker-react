@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch  } from 'react-redux'
-import { changePage, showModalMenu } from './../state'
+import { changePage, showModalMenu, loadCustomData } from './../state'
+import axios from 'axios'
+import { API_URL } from  './../settings'
 
 export const Header = () => {
     const currentPage = useSelector(state => state.navigator.currentPage);
@@ -56,5 +58,63 @@ export const Header = () => {
 
         
     </>
+    )
+}
+
+export const Footer = () => {
+    const customData = useSelector(state => state.navigator.customData);
+    const dispatch = useDispatch();
+    // load data on start
+    useEffect(() => {
+        if (!customData) {
+            axios.get(API_URL + '/custom/getdata')
+                .then(res => 
+                    {
+                        const apaints = res.data;
+                        dispatch(loadCustomData(apaints))
+                    })
+        }
+    })
+    return (
+        <div className="footer">
+            <div className="footer__container">
+                <div className="footer__logos">
+                    <img src={process.env.PUBLIC_URL + "/images/logo-white.svg"} alt="+"/>
+                    <div className="footer__socials">
+                        {customData &&
+                            <>
+                                <a href={ customData.facebook_page } target="blank"><img src={process.env.PUBLIC_URL + "/images/icon-facebook.svg"} alt="+" /></a>
+                                <a href={ customData.instagram_page } target="black"><img src={process.env.PUBLIC_URL + "/images/icon-instagram.svg"} alt="+" /></a>
+                            </>
+                        }
+                    </div>
+                </div>
+                <div className="footer__navs">
+                    <div className="footer__navs-item" onClick={() => dispatch(changePage('main'))}>
+                        Головна
+                    </div>
+                    <div className="footer__navs-item" onClick={() => dispatch(changePage('galery'))}>
+                        Галерея
+                    </div>
+                    <div className="footer__navs-item" onClick={() => dispatch(changePage('authors'))}>
+                        Автори
+                    </div>
+                    <div className="footer__navs-item" onClick={() => dispatch(changePage('background'))}>
+                        Беґраунд
+                    </div>
+                    <div className="footer__navs-item" onClick={() => dispatch(changePage('contact'))}>
+                        Контакти
+                    </div>
+                </div>
+                <div className="footer__contacts">
+                    {customData &&
+                        <>
+                            <div className="footer__contacts-item">{ customData.phone }</div>
+                            <div className="footer__contacts-item">{ customData.address }</div>
+                        </>
+                    }
+                </div>
+            </div>
+        </div>
     )
 }

@@ -46,7 +46,6 @@ export const PageGalery = () => {
         <div className="paints">
             <div className="paints__container">
                 { paintsList }
-
             </div>
             <div className="paints__more" onClick={loadMorePaits()}>
                 Більше картин <img src={process.env.PUBLIC_URL + "/images/icon-arrow-right.svg"} alt=">" />

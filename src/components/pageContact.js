@@ -1,5 +1,6 @@
 import React from 'react'
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { useSelector  } from 'react-redux'
 
 const BunkerMap = withGoogleMap((props) =>
   <GoogleMap
@@ -13,15 +14,21 @@ const BunkerMap = withGoogleMap((props) =>
 )
 
 export const PageContact = () => {
+    const customData = useSelector(state => state.navigator.customData);
     return (
         <div className="container">
 
             <div className="contact">
                 <div className="contact__data">
                     <div className="contact__title">КОНТАКТИ</div>
-                    <div className="contact__text">м. Тернопіль бульвар Шевченка, 1</div>
-                    <div className="contact__text">+38 098 295 1466</div>
-                    <div className="contact__text">email@gmail.com</div>
+                    {customData &&
+                        <>
+                            <div className="contact__text">{ customData.address }</div>
+                            <div className="contact__text">{ customData.phone }</div>
+                            <div className="contact__text">{ customData.email }</div>
+                        </>
+                    }
+
                 </div>
                 <div className="contact__map">
                 <BunkerMap

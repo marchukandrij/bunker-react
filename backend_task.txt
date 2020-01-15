@@ -7,13 +7,13 @@
 2.  Створити аплікацію "api", яка буде обслуговуватись по адресі "api/".
 3.  Створити і налаштувати папку для завантажених картинок "media"
 4.  Створити і налаштувати папку для статичних файлів. 
-    Вона має обслуговуватись по кореневій адресі сайту ("/").
+    Вона має обслуговуватись по адресі ("/static/").
     В папку статики потрібно скопіювати вміст папки "build", це і є фронтент додаток
 5.  Створити моделі даних з наступними полями:
 
     Для зберігання авторів "Author":
         "image" - ImageField
-        "name" - StringField
+        "name" - CharField
         "title_text" - TextField
         "history" - TextField
 
@@ -29,11 +29,23 @@
     Для картини "Paint":
         "image" - ImageField
         "author" - посилання на автора
-        "title" - StringField
-        "material" - StringField
-        "size" - StringField
-        "price" - StringField
+        "title" - CharField
+        "material" - CharField
+        "size" - CharField
+        "price" - CharField
         "sold" - BoolField
+
+    Для даних контактів "CustomData":
+        "title" = CharField
+        "custom_key" = CharField
+        "custom_value" = CharField
+
+    5.1 Заповнити "CustomData" такими даними в "custom_key" і "custom_value":
+        "address", "м. Тернопіль бульвар Шевченка, 1"
+        "phone", "+38 098 295 1466"
+        "email", "bunker@gmail.com"
+        "facebook_page", "https://facebook.com"
+        "instagram_page", "https://instagram.com"
 
 6.  Створити API для видачі даних для фронтенду. View має повертати дані у форматі JSON.
     Зверніть увагу, тут наведеній повний шлях до методів, а ваша аплікація вже працює по адресі "api/"
@@ -44,8 +56,10 @@
         /api/paints/detail/<paint_id>
         /api/paints/byauthor/<author_id>
         /api/authors/getstart
+        /api/authors/get5
         /api/authors/get/<from_number>/<count>
         /api/authors/detail/<author_id>
+        /api/custom/getdata
 
 7.  Формат даних і пояснення для кожного ендпоінта:
 
@@ -76,7 +90,7 @@
         Запит:
             /api/paints/get/<from_number>/<count>
 
-            <from_number> - це порядковий номер картини, починаючи з якого віддаються дані  
+            <from_number> - це порядковий номер картини, починаючи з якого віддаються дані (перший 1)  
             <count> - кількість картин, яку потрібно передати
 
         Формат результату:
@@ -113,7 +127,23 @@
             "size": "15х25 см",
             "price": "безцінно"
             "sold": false
+            "another_paints": [
+                {
+                    "src": "/images/custom-paint.jpg",
+                    "id": "1",
+                    "author": "Микола Джичка",
+                    "title": "#1 Ніжність полум'я"
+                },
+                {
+                    "src": "/images/custom-paint.jpg",
+                    "id": "2",
+                    "author": "Микола Джичка",
+                    "title": "#2 Ніжність полум'я"
+                }
+            ]
         }
+
+        "another_paints" - це список інших картин автора крім цієї (про яку запит) 
 
     7.4 Список даних картин вказаного автора
 
@@ -139,7 +169,7 @@
             ...
         ]
 
-    7.5 Список груп даних авторів для початкового заповнення сторінки. Три групи 
+    7.5 Список груп даних авторів для початкового заповнення сторінки. 5 груп 
         Запит:   
             /api/authors/getstart
         Формат результату:
@@ -168,11 +198,34 @@
             ...
         ]
 
-    7.6 Список груп даних авторів для дозавантаження    
+    7.6 Список із 5 випадкових авторів, для слайдера на головній сторінці 
+        Запит:   
+            /api/authors/get5
+        Формат результату:
+        [
+            {
+                "id": "1",
+                "image": "/url"
+                "name": "Микола Джичка"
+            },
+            {
+                "id": "2",
+                "image": "/url"
+                "name": "Микола Smith"
+            },
+            {
+                "id": "3",
+                "image": "/url"
+                "name": "John Dow"
+            }
+            ...
+        ]
+
+    7.7 Список груп даних авторів для дозавантаження    
         Запит:     
             /api/authors/get/<from_number>/<count>
 
-            <from_number> - це порядковий номер групи авторів, починаючи з якого віддаються дані  
+            <from_number> - це порядковий номер групи авторів, починаючи з якого віддаються дані. (Починаючи з 1)
             <count> - кількість груп авторів, яку потрібно передати
 
         Формат результату:
@@ -201,7 +254,7 @@
             ...
         ]
 
-    7.7 Список груп даних авторів для дозавантаження
+    7.8 Список груп даних авторів для дозавантаження
         Запит: 
             /api/authors/detail/<author_id>
 
@@ -238,3 +291,16 @@
                 "2016 - Живописний пленер до 150-річчя Каунаської Духовної Семінарії, м. Каунас, Литва."
             ]
         }
+
+    7.9 Словник із переліком "custom_key": "custom_value" із моделі "CustomData":
+        Запит: 
+            /api/custom/getdata
+
+        Формат результату:
+            {                
+                "address": "м. Тернопіль бульвар Шевченка, 1",
+                "phone": "+38 098 295 1466",
+                "email": "bunker@gmail.com",
+                "facebook_page": "https://facebook.com",
+                "instagram_page": "https://instagram.com"
+            }
